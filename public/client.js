@@ -17,7 +17,7 @@ var iceServers = {
         { 'urls': 'stun:stun.l.google.com:19302' }
     ]
 }
-var streamConstraints = { audio: true, video: false };
+var streamConstraints = { audio: true, video: true };
 var isCaller;
 
 // Let's do this
