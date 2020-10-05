@@ -17,7 +17,7 @@ var iceServers = {
         { 'urls': 'stun:stun.l.google.com:19302' }
     ]
 }
-var streamConstraints = { audio: true, video: true };
+var isVideo;
 var isCaller;
 
 // Let's do this
@@ -28,6 +28,8 @@ btnGoRoom.onclick = function () {
         alert("Please type a room number")
     } else {
         roomNumber = inputRoomNumber.value;
+        isVideo = document.getElementById("hasVideo").checked;
+        console.log(isVideo);
         socket.emit('create or join', roomNumber);
         divSelectRoom.style = "display: none;";
         divConsultingRoom.style = "display: block;";
@@ -36,7 +38,7 @@ btnGoRoom.onclick = function () {
 
 // message handlers
 socket.on('created', function (room) {
-    navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
+    navigator.mediaDevices.getUserMedia({ audio: true, video: isVideo }).then(function (stream) {
         localStream = stream;
         localVideo.srcObject = stream;
         isCaller = true;
@@ -46,7 +48,7 @@ socket.on('created', function (room) {
 });
 
 socket.on('joined', function (room) {
-    navigator.mediaDevices.getUserMedia(streamConstraints).then(function (stream) {
+    navigator.mediaDevices.getUserMedia({ audio: true, video: isVideo }).then(function (stream) {
         localStream = stream;
         localVideo.srcObject = stream;
         socket.emit('ready', roomNumber);
