@@ -14,7 +14,9 @@
     </div>
 
     <div id="consultingRoom" style="display:none">
-        <video id="localVideo" autoplay></video>
+        <input id="selfMute" type="checkbox" name="selfMute" checked onclick="document.getElementById('localVideo').muted = document.getElementById('selfMute').checked">
+        <label for="selfMute">Mute Self</label><br>
+        <video id="localVideo" muted="muted" autoplay></video>
         <video id="remoteVideo" autoplay></video>
     </div>
 
