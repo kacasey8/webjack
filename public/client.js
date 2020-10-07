@@ -70,8 +70,12 @@ socket.on('ready', function () {
         rtcPeerConnection = new RTCPeerConnection(iceServers);
         rtcPeerConnection.onicecandidate = onIceCandidate;
         rtcPeerConnection.ontrack = onAddStream;
-        rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
-        rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
+        var tracks = localStream.getTracks()
+        rtcPeerConnection.addTrack(tracks[0], localStream);
+        if (tracks.length > 1) {
+            // Send video if it exists
+            rtcPeerConnection.addTrack(tracks[1], localStream);
+        }
         rtcPeerConnection.createOffer()
             .then(sessionDescription => {
                 rtcPeerConnection.setLocalDescription(sessionDescription);
@@ -92,8 +96,12 @@ socket.on('offer', function (event) {
         rtcPeerConnection = new RTCPeerConnection(iceServers);
         rtcPeerConnection.onicecandidate = onIceCandidate;
         rtcPeerConnection.ontrack = onAddStream;
-        rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
-        rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
+        var tracks = localStream.getTracks()
+        rtcPeerConnection.addTrack(tracks[0], localStream);
+        if (tracks.length > 1) {
+            // Send video if it exists
+            rtcPeerConnection.addTrack(tracks[1], localStream);
+        }
         rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(event));
         rtcPeerConnection.createAnswer()
             .then(sessionDescription => {
