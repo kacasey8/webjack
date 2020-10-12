@@ -10,6 +10,8 @@
         <input id="roomNumber" type="text" />
         <input id="hasVideo" type="checkbox" name="hasVideo">
         <label for="hasVideo">Enable Video</label><br>
+        <input id="hasDebug" type="checkbox" name="hasDebug">
+        <label for="hasDebug">Enable Debugging Mode</label><br>
         <button id="goRoom">Go</button>
     </div>
 
@@ -20,9 +22,12 @@
         <video id="remoteVideo" autoplay></video>
         <div id="debuggingInfo" style="display:none">
             <button id="pingServer">Ping Server</button>
+            <button id="pingPeer" disabled>Ping Peer</button>
             <div id="statusContainer">
                 <label>Server Latency (ms)</label>
-                <div id="status"></div>
+                <div id="serverStatus"></div>
+                <label>Peer Latency (ms)</label>
+                <div id="peerStatus"></div>
             </div>
         </div>
     </div>
