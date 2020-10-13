@@ -4,6 +4,13 @@ const app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var iceServers = {
+    'iceServers': [
+        { 'urls': 'stun:stun.services.mozilla.com' },
+        { 'urls': 'stun:stun.l.google.com:19302' }
+    ]
+}
+
 const port = process.env.PORT || 3000;
 
 // express routing
@@ -33,6 +40,18 @@ io.on('connection', function (socket) {
         }
     });
 
+    socket.on('join test room', function (room) {
+        const testRoomNumber = "test_" + room;
+        console.log('connected to ' + testRoomNumber);
+        socket.join(testRoomNumber);
+        socket.emit('created', testRoomNumber);
+    })
+    
+    socket.on('pingTime', function (currTime) {
+        socket.emit('pongTime', currTime);
+        console.log('ping with ' + currTime);
+    })
+
     socket.on('ready', function (room){
         socket.broadcast.to(room).emit('ready');
     });
@@ -42,11 +61,11 @@ io.on('connection', function (socket) {
     });
 
     socket.on('offer', function(event){
-        socket.broadcast.to(event.room).emit('offer',event.sdp);
+        socket.broadcast.to(event.room).emit('offer', event.sdp);
     });
 
     socket.on('answer', function(event){
-        socket.broadcast.to(event.room).emit('answer',event.sdp);
+        socket.broadcast.to(event.room).emit('answer', event.sdp);
     });
 
 });

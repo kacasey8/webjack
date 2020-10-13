@@ -6,10 +6,12 @@
     <h1>WebRTC Video Conference Tutorial - Plain WebRTC</h1>
 
     <div id="selectRoom">
-        <label>Type the room number</label>
+        <label>Type the room number (or test)</label>
         <input id="roomNumber" type="text" />
         <input id="hasVideo" type="checkbox" name="hasVideo">
         <label for="hasVideo">Enable Video</label><br>
+        <input id="hasDebug" type="checkbox" name="hasDebug">
+        <label for="hasDebug">Enable Debugging Mode</label><br>
         <button id="goRoom">Go</button>
     </div>
 
@@ -18,6 +20,16 @@
         <label for="selfMute">Mute Self</label><br>
         <video id="localVideo" muted="muted" autoplay></video>
         <video id="remoteVideo" autoplay></video>
+        <div id="debuggingInfo" style="display:none">
+            <button id="pingServer">Ping Server</button>
+            <button id="pingPeer" disabled>Ping Peer</button>
+            <div id="statusContainer">
+                <label>Server Latency (ms)</label>
+                <div id="serverStatus"></div>
+                <label>Peer Latency (ms)</label>
+                <div id="peerStatus"></div>
+            </div>
+        </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
